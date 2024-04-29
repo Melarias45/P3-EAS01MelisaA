@@ -5,8 +5,13 @@ using namespace std;
 
 Rectangle::Rectangle(Vector2f size)
 {
+    this->shape = RectangleShape(size);
+    this->shape.setFillColor(Color::Magenta);
+    this->speed = Vector2f(0.f, 0.f);
+    this->objective = Vector2f(0.f, 0.f);
+
     /**  (4pts)
-        Inicializa las variables: 
+        Inicializa las variables:
         - shape: un rectángulo de tamaño size.
         - speed: un Vector2f con valores (0, 0).
         - objective: un Vector2f con valores (0, 0).
@@ -16,6 +21,12 @@ Rectangle::Rectangle(Vector2f size)
 
 Rectangle::Rectangle(Vector2f size, Vector2i position)
 {
+    this->shape = RectangleShape(size);
+    this->shape.setFillColor(Color::Blue);
+    this->speed = Vector2f(0.f, 0.f);
+    this->objective = Vector2f(position);
+    this->shape.setPosition(objective);
+
     /** (5pts)
         Inicializa las variables:
         - shape: un rectángulo de tamaño size.
@@ -28,6 +39,26 @@ Rectangle::Rectangle(Vector2f size, Vector2i position)
 
 void Rectangle::update()
 {
+    this->shape.move(speed);
+
+    if (shape.getPosition().x <= (objective.x - 5))
+    {
+        this->speed.x = 0;
+        this->shape.setFillColor(Color::Green);
+    }
+    else
+    {
+        this->shape.setFillColor(Color::Red);
+    }
+    if (shape.getPosition().y <= (objective.y - 5))
+    {
+        this->speed.y = 0;
+        this->shape.setFillColor(Color::Green);
+    }
+    else
+    {
+        this->shape.setFillColor(Color::Red);
+    }
     /**(6pts)
         Mueve el cuadrado.
         Si el cuadrado está a menos de 5 pixeles del objetivo, detén el cuadrado y píntalo de verde.
@@ -38,6 +69,16 @@ void Rectangle::update()
 
 void Rectangle::setObjective(Vector2f objective)
 {
+    this->objective = objective;
+
+    float direccionx = objective.x - shape.getPosition().x;
+    float direcciony = objective.y - shape.getPosition().y;
+
+    float magnitud = sqrt(pow(direccionx, 2) + pow(direcciony, 2));
+    float velocidadx = (direccionx / magnitud) * 10;
+    float velocidady = (direcciony / magnitud) * 10;
+
+
     /**(5pts)
         Asigna objetivo a la propiedad objective.
         Calcula la dirección hacia el objetivo y la velocidad necesaria para llegar al objetivo:
