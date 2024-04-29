@@ -25,7 +25,7 @@ int main()
                     int x=event.mouseButton.x; 
                     int y=event.mouseButton.y; 
                         rect.setObjective(Vector2f(x,y)); 
-                        rect.update(); 
+                        
                 }
             }
             /** (5pts)
